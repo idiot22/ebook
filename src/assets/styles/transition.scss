@@ -1,0 +1,23 @@
+.slide-down-enter,.slide-down-leave-to{
+    transform: translate3d(0,-100%,0)
+}
+.slide-down-enter-to,.slide-down-leave,.slide-up-enter-to,.slide-up-leave{
+    transform: translate3d(0,0,0)
+}
+.slide-up-enter,.slide-up-leave-to{
+    transform: translate3d(0,100%,0)
+}
+.slide-down-enter-active,.slide-down-leave-active,
+.slide-up-enter-active,.slide-up-leave-active,
+.font-pop-ani-enter-active,.font-pop-ani-leave-active{
+    transition: all 0.2s ease
+}
+//字体弹出层动画
+.font-pop-ani-enter,.font-pop-ani-leave-to{
+    transform: translateY(100%);
+    opacity: 0;
+}
+.font-pop-ani-enter-to,.font-pop-ani-leave{
+    transform: translateY(0);
+    opacity: 1;
+}
