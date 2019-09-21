@@ -61,6 +61,9 @@ const actions = {
   },
   setSpeakingIconBottom({ commit }, speakingIconBottom) {
     commit('SET_SPEAKING_ICON_BOTTOM', speakingIconBottom)
+  },
+  setHotOffsetY({ commit }, hotOffsetY) {
+    commit('SET_HOTOFFSETY', hotOffsetY)
   }
 }
 

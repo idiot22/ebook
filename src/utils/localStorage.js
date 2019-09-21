@@ -47,3 +47,6 @@ export function setTheme(value) {
   return setLocalStorage('theme', value)
 }
 
+export function saveMetadata(filename, value) {
+  return setBookObject(filename, 'metadata', value)
+}

@@ -51,26 +51,42 @@ export const ebookMixin = {
       'setOffsetY',
       'setIsBookmark',
       'setSpeakingIconBottom']),
-      refreshProgress(){
-        let current = this.currentBook.rendition.currentLocation()
+    refreshProgress() {
+      let current = this.currentBook.rendition.currentLocation()
+      if (current && current.start) {
         let startCfi = current.start.cfi
         let process = this.currentBook.locations.percentageFromCfi(startCfi)
-        setBookObject(this.filename,"startCfi",startCfi)
-        this.setProgress(Math.floor(process*100))
+        setBookObject(this.filename, 'startCfi', startCfi)
+        this.setProgress(Math.floor(process * 100))
         this.setSection(current.start.index)
-      },
-      display(target,fun){
-        if(target){
-          this.currentBook.rendition.display(target).then(()=>{
-            this.refreshProgress()
-            if(fun) fun()
-          })
-        }else{
-          this.currentBook.rendition.display().then(()=>{
-            this.refreshProgress()
-            if(fun) fun()
-          })
-        }
-      },
+      }
+    },
+    display(target, fun) {
+      if (target) {
+        this.currentBook.rendition.display(target).then(() => {
+          this.refreshProgress()
+          if (fun) fun()
+        })
+      } else {
+        this.currentBook.rendition.display().then(() => {
+          this.refreshProgress()
+          if (fun) fun()
+        })
+      }
+    },
+    hideMenuTitle() { // 实现翻页的时候隐藏
+      this.setMenuVisible(false)
+      this.setVisible(-1)
+      this.setFontFamilyVisible(false)
+    }
+  }
+}
+
+export const ebookStore = {
+  computed: {
+    ...mapGetters(['hotOffsetY'])
+  },
+  methods: {
+    ...mapActions(['setHotOffsetY'])
   }
 }

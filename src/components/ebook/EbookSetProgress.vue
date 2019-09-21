@@ -34,18 +34,16 @@
 
 <script>
 import { ebookMixin } from '../../utils/mixin'
-import { setBookObject ,getBookObject} from '../../utils/localStorage'
+import { getBookObject } from '../../utils/localStorage'
 export default {
   mixins: [
     ebookMixin
   ],
-  computed:{
-    getSetionName(){
-      if(this.section){
-        let info = this.currentBook.section(this.section).href
-        return this.currentBook.navigation.get(info).label
+  computed: {
+    getSetionName() {
+      if (this.navigation) {
+        return this.section ? this.navigation[this.section].label : ''
       }
-      return false
     }
   },
   methods: {
@@ -61,36 +59,36 @@ export default {
     prevSection() {
       if (this.section >= 1 && this.bookAvailable) {
         this.setSection(this.section - 1).then(() => {
-            this.displaySection()
+          this.displaySection()
         })
       }
     },
     nextSection() {
       if (this.currentBook.spine.length - 1 > this.section && this.bookAvailable) {
         this.setSection(this.section + 1).then(() => {
-            this.displaySection()
+          this.displaySection()
         })
       }
     },
     onProgressChange() {},
     displaySection() {
-          const sectionInfo = this.currentBook.section(this.section)
-          this.display(sectionInfo.href) //mixin
+      const sectionInfo = this.currentBook.section(this.section)
+      this.display(sectionInfo.href) // mixin
     },
-    getReadTime(){
-      return this.$t("book.haveRead").replace("$1",this.getReadTimeByMinute())
+    getReadTime() {
+      return this.$t('book.haveRead').replace('$1', this.getReadTimeByMinute())
     },
-    getReadTimeByMinute(){
-        if (!getBookObject(this.filename,"readtime")) {
-            return 0
-          } else {
-            return Math.ceil(getBookObject(this.filename,"readtime") / 60)
-          }
+    getReadTimeByMinute() {
+      if (!getBookObject(this.filename, 'readtime')) {
+        return 0
+      } else {
+        return Math.ceil(getBookObject(this.filename, 'readtime') / 60)
+      }
     }
   },
-  updated(){
-        this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
-    }
+  updated() {
+    this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
+  }
 }
 </script>
 

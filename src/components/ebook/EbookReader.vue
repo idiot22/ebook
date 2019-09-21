@@ -1,23 +1,63 @@
 <template>
   <div class="ebook-reader">
      <div id="read"></div>
+     <div class="ebook-reader-mask"
+     @click="onMaskClick"
+     @touchmove="move"
+     @touchend="moveEnd">
+     </div>
   </div>
 </template>
 
 <script>
 import Epub from 'epubjs'
 import { ebookMixin } from '../../utils/mixin'
-import { getBookObject, getTheme } from '../../utils/localStorage'
-import { changeCss } from '../../utils/book'
+import { getBookObject, getTheme, saveMetadata } from '../../utils/localStorage'
+import { changeCss, expandArray } from '../../utils/book'
 global.ePub = Epub
 export default {
   mixins: [
     ebookMixin
   ],
+  data() {
+    return {
+      firstOffsetY: null
+    }
+  },
+  watch: {
+    offsetY() {
+
+    }
+  },
   methods: {
+    move(e) {
+      let offsetY = 0
+      if (this.firstOffsetY) {
+        offsetY = e.changedTouches[0].clientY - this.firstOffsetY
+        this.setOffsetY(offsetY)
+      } else {
+        this.firstOffsetY = e.changedTouches[0].clientY
+      }
+    },
+    moveEnd() {
+      this.firstOffsetY = 0
+      this.setOffsetY(0)
+    },
+    onMaskClick(e) {
+      let width = window.innerWidth
+      if (e.offsetX > 0 && e.offsetX < width * 0.3) {
+        this.prePage()
+      } else if (e.offsetX > 0 && e.offsetX > width * 0.7) {
+        this.nextPage()
+      } else {
+        this.showMenuTitle()
+        this.setFontFamilyVisible(false)
+      }
+      event.stopPropagation()
+    },
     prePage() {
       if (this.rendition) {
-        this.rendition.prev().then(()=>{
+        this.rendition.prev().then(() => {
           this.refreshProgress()
         })
         this.hideMenuTitle()
@@ -25,7 +65,7 @@ export default {
     },
     nextPage() {
       if (this.rendition) {
-        this.rendition.next().then(()=>{
+        this.rendition.next().then(() => {
           this.refreshProgress()
         })
         this.hideMenuTitle()
@@ -36,11 +76,6 @@ export default {
         this.setVisible(-1)
       }
       this.setMenuVisible(!this.menuvisible)
-    },
-    hideMenuTitle() { // 实现翻页的时候隐藏
-      this.$store.dispatch('setMenuVisible', false)
-      this.setVisible(-1)
-      this.setFontFamilyVisible(false)
     },
     initFont() {
       let fontSize = getBookObject(this.filename, 'fontSize') || this.defaultFontSize
@@ -63,26 +98,54 @@ export default {
       }
       changeCss(this.defaultTheme)
     },
-    initGesture() {
-      this.rendition.on('touchstart', (event) => { // 开始触碰使得x坐标及时间
-        this.touchX = event.changedTouches[0].clientX
-        this.touchtime = event.timeStamp
+    parseBook() {
+      this.book.loaded.metadata.then((metadata) => {
+        this.setMetadata(metadata)
+        saveMetadata(this.fileName, metadata)
       })
-      this.rendition.on('touchend', (event) => { // 开始触碰使得x坐标及时间
-        this.x = event.changedTouches[0].clientX - this.touchX
-        this.time = event.timeStamp - this.touchtime
-        if (this.x > 40 && this.time < 500) {
-          this.prePage()
-        } else if (this.x < -40 && this.time < 500) {
-          this.nextPage()
-        } else {
-          this.showMenuTitle()
-          this.setFontFamilyVisible(false)
+      this.book.loaded.cover.then(cover => {
+        this.book.archive.createUrl(cover).then(url => {
+          this.setCover(url)
+        })
+      })
+      this.book.loaded.navigation.then(nav => {
+        let a = expandArray(nav.toc)
+        let navlist = [].concat(...a)
+        function find(ele, level = 0) {
+          if (!ele.parent) {
+            return level
+          } else {
+            return find(navlist.filter((item) => {
+              return item.id === ele.parent
+            }), ++level)
+          }
         }
-        // event.preventDefault()
-        event.stopPropagation()
+        navlist.forEach((item, index) => {
+          navlist[index].level = find(item)
+        })
+        this.setNavigation(navlist)
       })
     },
+    // initGesture() {
+    //   this.rendition.on('touchstart', (event) => { // 开始触碰使得x坐标及时间
+    //     this.touchX = event.changedTouches[0].clientX
+    //     this.touchtime = event.timeStamp
+    //   })
+    //   this.rendition.on('touchend', (event) => { // 开始触碰使得x坐标及时间
+    //     this.x = event.changedTouches[0].clientX - this.touchX
+    //     this.time = event.timeStamp - this.touchtime
+    //     if (this.x > 40 && this.time < 500) {
+    //       this.prePage()
+    //     } else if (this.x < -40 && this.time < 500) {
+    //       this.nextPage()
+    //     } else {
+    //       this.showMenuTitle()
+    //       this.setFontFamilyVisible(false)
+    //     }
+    //     // event.preventDefault()
+    //     event.stopPropagation()
+    //   })
+    // },
     initRendition() {
       const baseURL = 'http://localhost:80'
       let url = baseURL + '/ebook/' + this.filename + '.epub'
@@ -108,15 +171,16 @@ export default {
     initEpub() {
       this.initRendition()
       // this.book.rendition.themes.fontSize(this.defaultFontSize + 'px')
-// 显示书本
+      // 显示书本
       this.setCurrentBook(this.book)
-      let location = getBookObject(this.filename,"startCfi")
-      this.display(location,()=>{
+      let location = getBookObject(this.filename, 'startCfi')
+      this.display(location, () => {
         this.initFont()
         this.initTheme()
+        this.parseBook()
       })
-      
-      this.initGesture()
+
+      // this.initGesture()
       this.initCss()
       this.book.ready.then(() => {
         return this.book.locations.generate(750 * (window.innerWidth / 375) * (getBookObject(this.filename, 'fontSize') / 16))
@@ -135,6 +199,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.ebook-reader{
+  height: 100%;
+}
+.ebook-reader-mask{
+  width: 100%;
+  height:100%;
+  position: absolute;
+  top:0px;
+  bottom: 0px;
+}
 </style>
