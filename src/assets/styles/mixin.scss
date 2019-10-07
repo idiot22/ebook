@@ -10,7 +10,26 @@ $ratio : 375 / 10;
   overflow: hidden;
 }
 
+@mixin columnTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 
+@mixin columnLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@mixin columnCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 @mixin center{
     display: flex;
@@ -92,6 +111,8 @@ $text-medium-max-height: px2rem(16);
 $text-small-max-height2: px2rem(30);
 $text-small-max-height: px2rem(15);
 $text-tiny-max-height: px2rem(12);
+
+$color-blue: rgb(74, 171, 255);
 
 .title-big {
   line-height: $text-big-lh;

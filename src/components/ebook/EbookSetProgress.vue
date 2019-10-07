@@ -41,9 +41,7 @@ export default {
   ],
   computed: {
     getSetionName() {
-      if (this.navigation) {
-        return this.section ? this.navigation[this.section].label : ''
-      }
+      return this.section ? this.navigation[this.section].label : ''
     }
   },
   methods: {

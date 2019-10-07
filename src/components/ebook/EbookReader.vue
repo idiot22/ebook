@@ -149,6 +149,7 @@ export default {
     initRendition() {
       const baseURL = 'http://localhost:80'
       let url = baseURL + '/ebook/' + this.filename + '.epub'
+      console.log(url)
       this.book = new Epub(url) // 通过url来new一本书
       this.rendition = this.book.renderTo('read', { // 渲染到dom中
         width: innerWidth,

@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <title-view :label="$t('home.category')" :btn="$t('home.seeAll')" @onClick="showBookList"></title-view>
+    <title-view :label="$t('home.category')" :btn="$t()" @onClick="showBookList"></title-view>
     <div class="category-list">
       <div class="category-item-wrapper" v-for="(item, index) in data" :key="index" @click="showBookCategory(item)">
         <div class="category-item">
@@ -34,7 +34,7 @@ export default {
   methods: {
     showBookCategory(item) {
       this.$router.push({
-        path: '/book-store/list',
+        path: '/store/list',
         query: {
           category: getCategoryName(item.category),
           categoryText: this.categoryText(item.category)
@@ -45,7 +45,7 @@ export default {
       return categoryText(category, this)
     },
     showBookList() {
-      this.$router.push('/book-store/list')
+      this.$router.push('/store/list')
     }
   }
 }

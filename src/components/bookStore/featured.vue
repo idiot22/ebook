@@ -1,6 +1,6 @@
 <template>
   <div class="featured">
-    <title-view :label="titleText" :btn="btnText" v-if="titleVisible && data && data.length > 0"></title-view>
+    <title-view :label="titleText"  v-if="titleVisible && data && data.length > 0"></title-view>
     <div class="featured-list">
       <div class="featured-item-wrapper">
         <div class="featured-item" v-for="(item, index) in data" :key="index" @click="showBookDetail(item)">
@@ -21,7 +21,7 @@
 <script type="text/ecmascript-6">
 import TitleView from '../bookStore/title'
 import { realPx } from '../../utils/utils'
-import { categoryText } from '@/utils/book'
+import { categoryText, showBookDetail } from '@/utils/book'
 import { ebookStore } from '../../utils/mixin'
 
 export default {
@@ -48,6 +48,9 @@ export default {
     }
   },
   methods: {
+    showBookDetail(item) {
+      showBookDetail(this, item)
+    },
     categoryText(category) {
       return categoryText(category, this)
     },

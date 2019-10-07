@@ -14,34 +14,34 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
-    props: {
-      title: String,
-      showShelf: {
-        type: Boolean,
-        default: true
-      }
+export default {
+  props: {
+    title: String,
+    showShelf: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {
+      ifHideShadow: true
+    }
+  },
+  methods: {
+    showBookShelf() {
+      this.$router.push('/store/shelf')
     },
-    data() {
-      return {
-        ifHideShadow: true
-      }
+    showShadow() {
+      this.ifHideShadow = false
     },
-    methods: {
-      showBookShelf() {
-        this.$router.push('/book-store/shelf')
-      },
-      showShadow() {
-        this.ifHideShadow = false
-      },
-      hideShadow() {
-        this.ifHideShadow = true
-      },
-      back() {
-        this.$emit('back')
-      }
+    hideShadow() {
+      this.ifHideShadow = true
+    },
+    back() {
+      this.$emit('back')
     }
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
@@ -54,6 +54,7 @@
     box-shadow: 0 px2rem(2) px2rem(2) 0 rgba(0, 0, 0, .1);
     font-size: px2rem(20);
     color: #666;
+    align-items: center;
     &.hide-shadow {
       box-shadow: none;
     }

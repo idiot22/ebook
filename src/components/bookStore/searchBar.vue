@@ -4,7 +4,7 @@
         <div class="title-search-wrapper">
             <transition name="title">
                 <div class="title-search-page-wrapper" v-if="titleVisible">
-                    <span class="title-text">ff</span>
+                    <span class="title-text">{{$t("home.title")}}</span>
                     <div class="icon-shake-wrapper">
                         <span class="icon-shake icon" @click='showCard'></span>
                     </div>
@@ -18,7 +18,7 @@
             </div>
             <div class="search-bg">
               <span class="icon-search icon"></span>
-              <input type="text" class="search" @click="showHotSearch()">
+              <input type="text" v-model="searText" class="search" @click="showHotSearch()" @keyup.13.exact ="search">
             </div>
           </div>
         </div>
@@ -145,7 +145,8 @@ export default {
           }
         ]
       },
-      shadowVisible: false
+      shadowVisible: false,
+      searText: null
     }
   },
   computents: {
@@ -189,9 +190,18 @@ export default {
     },
     back() {
       this.hideHotSearch()
+      this.$router.go(-1)
     },
     onScroll(offsetY) {
       this.setHotOffsetY(offsetY)
+    },
+    search(e) {
+      this.$router.push({
+        path: '/store/list',
+        query: {
+          keyword: this.searText
+        }
+      })
     }
   }
 }

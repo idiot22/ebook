@@ -1,5 +1,4 @@
 import Storage from 'web-storage-cache'
-
 const localStorage = new Storage()
 
 export function getLocalStorage(key) {
@@ -36,7 +35,7 @@ export function getBookObject(fileName, key) {
 export function getLocale() {
   return getLocalStorage('locale')
 }
-export function setLocale(key, value) {
+export function setLocale(value) {
   return setLocalStorage('locale', value)
 }
 
@@ -49,4 +48,13 @@ export function setTheme(value) {
 
 export function saveMetadata(filename, value) {
   return setBookObject(filename, 'metadata', value)
+}
+
+// 书架书本缓存
+export function getShelfBook() {
+  return getLocalStorage('shelf')
+}
+
+export function saveShelfBook(data) {
+  return setLocalStorage('shelf', data)
 }

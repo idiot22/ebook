@@ -1,8 +1,8 @@
 <template>
     <transition name="slide-down">
       <div class="title-wrapper" v-show="this.menuvisible">
-        <div class="left">
-          <span class="icon-back "></span>
+        <div class="left" @click="back">
+          <span class="icon-back " ></span>
         </div>
         <div class="right">
           <div class="icon-wrapper">
@@ -30,8 +30,12 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  methods: {
+    back() {
+      this.$router.go(-1)
+    }
   }
-
 }
 </script>
 

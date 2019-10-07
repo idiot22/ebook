@@ -18,14 +18,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
-    props: {
-      cover: String,
-      title: String,
-      author: String,
-      desc: String
-    }
+export default {
+  props: {
+    cover: String,
+    title: String,
+    author: String,
+    desc: String
   }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

@@ -19,7 +19,13 @@ const getters = {
   offsetY: state => state.book.offsetY,
   isBookmark: state => state.book.isBookmark,
   speakingIconBottom: state => state.book.speakingIconBottom,
-  hotOffsetY: state => state.bookStore.hotOffsetY
+  hotOffsetY: state => state.bookStore.hotOffsetY,
+  isEditMode: state => state.bookStore.isEditMode,
+  shelfList: state => state.bookStore.shelfList,
+  shelfSelected: state => state.bookStore.shelfSelected,
+  shelfTitleVisible: state => state.bookStore.shelfTitleVisible,
+  shelfCategory: state => state.bookStore.shelfCategory,
+  currentType: state => state.bookStore.currentType
 }
 
 export default getters

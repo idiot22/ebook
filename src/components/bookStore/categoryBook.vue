@@ -16,7 +16,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { categoryText, getCategoryName } from '../../utils/book'
+import { categoryText, getCategoryName, showBookDetail } from '../../utils/book'
 import TitleView from '../bookStore/title'
 import { ebookStore } from '../../utils/mixin'
 
@@ -29,9 +29,12 @@ export default {
     data: Object
   },
   methods: {
+    showBookDetail(item) {
+      showBookDetail(this, item)
+    },
     showBookCategory() {
       this.$router.push({
-        path: '/book-store/list',
+        path: '/store/list',
         query: {
           category: getCategoryName(this.data.category),
           categoryText: this.categoryText(this.data.category)

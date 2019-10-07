@@ -15,7 +15,10 @@ $ani-type:linear;
 .slide-right-enter-active,.slide-right-leave-active,
 .fade-enter-active, .fade-leave-active,
 .title-enter-active,.title-leave-active,
-.search-enter-active,.search-leave-active
+.search-enter-active,.search-leave-active,
+.shelf-slide-up-enter-active,.shelf-slide-up-leave-active,
+.popup-slide-up-enter-active,.popup-slide-up-leave-active,
+.fade-enter-active,.fade-leave-active
 {
     transition: all 0.2s ease
 }
@@ -55,4 +58,24 @@ $ani-type:linear;
   //书架搜索栏
   .title-enter,.title-leave-to{
     transform: translate3d(0, 15%, 0);
+  }
+
+  .shelf-slide-up-enter,.shelf-slide-up-leave-to{
+    transform: translateY(0)
+  }
+  .shelf-slide-up-enter-to,.shelf-slide-up-leave{
+    transform: translateY(100%)
+  }
+
+  .popup-slide-up-enter,.popup-slide-up-leave-to{
+    transform: translateY(100%)
+  }
+  .popup-slide-up-enter-to,.popup-slide-up-leave{
+    transform: translateY(0)
+  }
+  .fade-enter,.fade-leave-to{
+    opacity: 0;
+  }
+  .fade-enter-to,.fade-leave{
+    opacity: 1;
   }

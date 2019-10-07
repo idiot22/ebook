@@ -64,6 +64,24 @@ const actions = {
   },
   setHotOffsetY({ commit }, hotOffsetY) {
     commit('SET_HOTOFFSETY', hotOffsetY)
+  },
+  setIsEditMode({ commit }, isEditMode) {
+    return commit('SET_IS_EDIT_MODE', isEditMode)
+  },
+  setShelfList({ commit }, list) {
+    return commit('SET_SHELF_LIST', list)
+  },
+  setShelfSelected({ commit }, shelfSelected) {
+    return commit('SET_SHELF_SELECTED', shelfSelected)
+  },
+  setShelfTitleVisible({ commit }, visible) {
+    return commit('SET_SHELF_TITLE_VISIBLE', visible)
+  },
+  setShelfCategory({ commit }, category) {
+    return commit('SET_SHELF_CATEGORY', category)
+  },
+  setCurrentType({ commit }, type) {
+    return commit('SET_CURRENT_TYPE', type)
   }
 }
 

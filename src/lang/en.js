@@ -47,6 +47,7 @@ const messages = {
     title: 'Book Shelf',
     edit: 'Edit',
     cancel: 'Cancel',
+    back: 'back',
     search: 'Search',
     private: 'Private',
     noPrivate: 'Close Private',

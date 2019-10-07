@@ -20,11 +20,14 @@
 import TitleView from '../bookStore/title'
 import { realPx } from '../../utils/utils'
 import { ebookStore } from '../../utils/mixin'
-
+import { showBookDetail } from '../../utils/book'
 export default {
   mixins: [ebookStore],
   components: {
     TitleView
+  },
+  mounted() {
+
   },
   props: {
     data: Array
@@ -57,6 +60,10 @@ export default {
     }
   },
   methods: {
+    showBookDetail(item) {
+      console.log(111)
+      showBookDetail(this, item)
+    },
     change() {
       if (this.index + 1 >= this.total) {
         this.index = 0

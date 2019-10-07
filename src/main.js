@@ -4,7 +4,9 @@ import router from './router'
 import store from './store/index'
 import './assets/styles/icon.css'
 import i18n from './lang'
-import './mock'
+import '../src/utils/boost'
+import '../src/utils/createApi'
+// import './mock'
 import VueLazyLoad from 'vue-lazyload'
 Vue.config.productionTip = false
 Vue.use(VueLazyLoad)

@@ -48,6 +48,7 @@ const messages = {
     edit: '编辑',
     cancel: '取消',
     search: '搜索',
+    back: '返回',
     private: '私密阅读',
     noPrivate: '关闭私密阅读',
     download: '开启离线',

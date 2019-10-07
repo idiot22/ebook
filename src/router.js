@@ -26,6 +26,26 @@ export default new Router({
         {
           path: 'storeHome',
           component: () => import('./views/store/storeHome.vue')
+        },
+        {
+          path: 'detail',
+          component: () => import('./views/store/StoreDetail.vue')
+        },
+        {
+          path: 'list',
+          component: () => import('./views/store/StoreList.vue')
+        },
+        {
+          path: 'shelf',
+          component: () => import('./views/store/bookShelf.vue')
+        },
+        {
+          path: 'category',
+          component: () => import('./views/store/category.vue')
+        },
+        {
+          path: 'speaking',
+          component: () => import('./views/store/StoreSpeaking.vue')
         }
       ]
     }

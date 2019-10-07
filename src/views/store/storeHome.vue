@@ -82,7 +82,6 @@ export default {
       if (res && res.status === 200) {
         let data = res.data
         this.bannerUrl = data.banner
-        console.log(data)
         this.guessYouLikeData = data.guessYouLike
         let randomIndex = Math.floor(Math.random() * data.random.length)
         this.randomBook = data.random[randomIndex]

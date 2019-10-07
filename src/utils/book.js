@@ -1,3 +1,37 @@
+import { getLocalStorage, setLocalStorage } from './localStorage'
+
+export function flatBookList(bookList) {
+  if (bookList) {
+    let orgBookList = bookList.filter(item => {
+      return item.type !== 3
+    })
+    const categoryList = bookList.filter(item => {
+      return item.type === 2
+    })
+    categoryList.forEach(item => {
+      const index = orgBookList.findIndex(v => {
+        return v.id === item.id
+      })
+      if (item.itemList) {
+        item.itemList.forEach(subItem => {
+          orgBookList.splice(index, 0, subItem)
+        })
+      }
+    })
+    orgBookList.forEach((item, index) => {
+      item.id = index + 1
+    })
+    orgBookList = orgBookList.filter(item => item.type !== 2)
+    return orgBookList
+  } else {
+    return []
+  }
+}
+export function findBook(fileName) {
+  const bookList = getLocalStorage('shelf')
+  return flatBookList(bookList).find(item => item.fileName === fileName)
+}
+
 export const FONT_SIZE_LIST = [
   { fontSize: 12 },
   { fontSize: 14 },
@@ -7,7 +41,30 @@ export const FONT_SIZE_LIST = [
   { fontSize: 22 },
   { fontSize: 24 }
 ]
-
+export const categoryList = {
+  'ComputerScience': 1,
+  'SocialSciences': 2,
+  'Economics': 3,
+  'Education': 4,
+  'Engineering': 5,
+  'Environment': 6,
+  'Geography': 7,
+  'History': 8,
+  'Laws': 9,
+  'LifeSciences': 10,
+  'Literature': 11,
+  'Biomedicine': 12,
+  'BusinessandManagement': 13,
+  'EarthSciences': 14,
+  'MaterialsScience': 15,
+  'Mathematics': 16,
+  'MedicineAndPublicHealth': 17,
+  'Philosophy': 18,
+  'Physics': 19,
+  'PoliticalScienceAndInternationalRelations': 20,
+  'Psychology': 21,
+  'Statistics': 22
+}
 export const FONT_FAMILY = [
   { font: 'Default' },
   { font: 'Cabin' },
@@ -204,4 +261,81 @@ export function getCategoryName(id) {
     case 22:
       return 'Statistics'
   }
+}
+
+export function showBookDetail(vue, book) {
+  vue.$router.push({
+    path: '/store/detail',
+    query: {
+      fileName: book.fileName,
+      category: book.category
+    }
+  })
+}
+// 添加书架加号的数据
+export function addShelfData(data) {
+  data.push({
+    id: -1,
+    type: -1
+  })
+  return data
+}
+
+export function toBookHome(vue) {
+  console.log(333)
+  vue.$router.push({
+    path: '/store/storeHome'
+  })
+}
+const BOOK_SHELF_KEY = 'shelf'
+export function removeAddFromShelf(list) {
+  return list.filter(item => item.type !== 3)
+}
+
+export function appendAddToShelf(list) {
+  list.push({
+    id: -1,
+    type: 3
+  })
+  return list
+}
+
+export function removeFromBookShelf(bookItem) {
+  console.log(bookItem)
+  let bookList = getLocalStorage('shelf')
+  console.log(bookList)
+  // bookList = bookList.filter(item => {
+  //   if (item.itemList) {
+  //     item.itemList = item.itemList.filter(subItem => subItem.fileName !== bookItem.fileName)
+  //   }
+  //   return item.fileName !== bookItem.fileName
+  // })
+  // setLocalStorage(BOOK_SHELF_KEY, bookList)
+}
+
+export function addToShelf(book) {
+  let bookList = getLocalStorage(BOOK_SHELF_KEY)
+  bookList = clearAddFromBookList(bookList)
+  book.type = 1
+  bookList.push(book)
+  bookList.forEach((item, index) => {
+    item.id = index + 1
+  })
+  appendAddToBookList(bookList)
+  setLocalStorage(BOOK_SHELF_KEY, bookList)
+}
+
+export function appendAddToBookList(bookList) {
+  bookList.push({
+    cover: '',
+    title: '',
+    type: 3,
+    id: Number.MAX_SAFE_INTEGER
+  })
+}
+
+export function clearAddFromBookList(bookList) {
+  return bookList.filter(item => {
+    return item.type !== 3
+  })
 }

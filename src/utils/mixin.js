@@ -84,9 +84,70 @@ export const ebookMixin = {
 
 export const ebookStore = {
   computed: {
-    ...mapGetters(['hotOffsetY'])
+    ...mapGetters(['hotOffsetY',
+      'isEditMode',
+      'shelfList',
+      'shelfSelected',
+      'shelfTitleVisible',
+      'offsetY',
+      'shelfCategory',
+      'currentType'])
   },
   methods: {
-    ...mapActions(['setHotOffsetY'])
+    ...mapActions(['setHotOffsetY',
+      'setIsEditMode',
+      'setShelfList',
+      'setShelfSelected',
+      'setShelfTitleVisible',
+      'setOffsetY',
+      'setShelfCategory',
+      'setCurrentType'])
   }
+}
+export const storeShelfMixin = {
+  computed: {
+    ...mapGetters([
+      'isEditMode',
+      'shelfList',
+      'shelfSelected',
+      'shelfTitleVisible',
+      'offsetY',
+      'shelfCategory',
+      'currentType'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'setIsEditMode',
+      'setShelfList',
+      'setShelfSelected',
+      'setShelfTitleVisible',
+      'setOffsetY',
+      'setShelfCategory',
+      'setCurrentType'
+    ]),
+    getCategoryList(title) {
+      const categoryList = this.shelfList.filter(book => book.type === 2 && book.title === title)[0]
+      this.setShelfCategory(categoryList)
+    }
+  }
+  //   showBookDetail(book) {
+  //     gotoBookDetail(this, book)
+  //   },
+  //   moveOutOfGroup(f) {
+  //     this.setShelfList(this.shelfList.map(book => {
+  //       if (book.type === 2 && book.itemList) {
+  //         book.itemList = book.itemList.filter(subBook => !subBook.selected)
+  //       }
+  //       return book
+  //     })).then(() => {
+  //       const list = computeId(appendAddToShelf([].concat(
+  //         removeAddFromShelf(this.shelfList), ...this.shelfSelected)))
+  //       this.setShelfList(list).then(() => {
+  //         this.simpleToast(this.$t('shelf.moveBookOutSuccess'))
+  //         if (f) f()
+  //       })
+  //     })
+  //   }
+  // }
 }
